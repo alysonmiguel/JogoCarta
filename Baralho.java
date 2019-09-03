@@ -1,65 +1,57 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package jogocartas;
+package jogodecartas;
 
 import java.util.Random;
 
-/**
- *
- * @author Alyson
- */
 public class Baralho {
-    
-    private Random aleatorio = new Random();
-    private int controlador;
-    Carta[] carta;
-    
+
+    private final Carta[] CARTAS;
+    private final Random ALEATORIO;
+    private int contador;
 
     public Baralho() {
-        String[] face = { "A", "K", "J", "Q", "1", "2","3", "4", "5", "6", "7", "8", "9" }; 
-        String[] naipe = {"copas","espadas","paus","ouros"};
-        
-        carta = new Carta[52];
-        
-        for (int i = 0; i < carta.length; i++) {
-            carta[i] = new Carta(face[i],naipe[i]); // i % 13
-        }
-        
-        
-    }
-   
-    public void mostrarBaralho(){
-         for (int i = 0; i < carta.length; i++) {
-               toString();
+        ALEATORIO = new Random();
+        CARTAS = new Carta[52];
+        String[] face = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+        String[] naipe = {"copas", "espadas", "ouros", "paus"};
+
+        int cont = 0;
+        for (int i = 0; i < naipe.length; i++) {
+            for (int j = 0; j < face.length; j++) {
+                CARTAS[cont++] = new Carta(face[j], naipe[i]);
+            }
         }
     }
-    public void embaralhar(){
-        controlador = 0;
-        for (int i = 0; i < carta.length; i++) {
-          int numero = aleatorio.nextInt(52);
-        
-          Carta temp = carta[i];
-          carta[i] = carta[numero];
-          carta[numero] = temp;
-        }
-        
-    }
-    public Carta distribuirCartas(int qtdCartas){
-        
-        if(controlador < carta.length){
-            return carta[controlador++];
-        }else{      
-        return null; 
+
+    public void embaralhar() {
+        System.out.println("\t\tEMBARALHANDO\n");
+        int num, num2;
+        Carta temp;
+        for (int i = 0; i < CARTAS.length; i++) {
+            num = ALEATORIO.nextInt(CARTAS.length);
+            num2 = ALEATORIO.nextInt(CARTAS.length);
+            temp = CARTAS[num];
+            CARTAS[num] = CARTAS[num2];
+            CARTAS[num2] = temp;
         }
     }
-    
-    public Carta[] getCartas(){
-        return null;
+
+    public Carta[] distribuirCartas(int qtdCartas) {
+        System.out.println("------------DISTRIBUINDO BARALHO-----------------");
+
+        Carta[] cartasJogador = new Carta[qtdCartas];
+
+        for (int i = 0; i < qtdCartas; i++) {
+            cartasJogador[i] = CARTAS[contador];
+            contador++;
+        }
+
+        return cartasJogador;
     }
-   
-      
- 
+
+    public void mostrarBaralho() {
+        System.out.println("------------APRESENTANDO BARALHO-----------------");
+        for (Carta carta : CARTAS) {
+            System.out.println(carta.toString());
+        }
+    }
 }
